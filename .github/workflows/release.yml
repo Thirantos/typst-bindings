@@ -31,7 +31,7 @@ jobs:
             archive_ext: tar.gz
             use_cross: true
 
-          - os: macos-13
+          - os: macos-latest
             target: x86_64-apple-darwin
             lib_prefix: lib
             lib_ext: dylib
@@ -70,7 +70,13 @@ jobs:
 
       - name: Build
         shell: bash
+        env:
+          EXTRA_ENV: ${{ matrix.extra_env }}
         run: |
+          if [ -n "$EXTRA_ENV" ]; then
+            export $EXTRA_ENV
+          fi
+
           if [ "${{ matrix.use_cross }}" = "true" ]; then
             cross build --release --target ${{ matrix.target }}
           else
