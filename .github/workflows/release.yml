@@ -30,7 +30,6 @@ jobs:
             lib_ext: so
             archive_ext: tar.gz
             use_cross: true
-            extra_env: OPENSSL_VENDORED=1
 
           - os: macos-latest
             target: x86_64-apple-darwin
@@ -74,10 +73,6 @@ jobs:
         env:
           EXTRA_ENV: ${{ matrix.extra_env }}
         run: |
-          if [ -n "$EXTRA_ENV" ]; then
-            export $EXTRA_ENV
-          fi
-
           if [ "${{ matrix.use_cross }}" = "true" ]; then
             cross build --release --target ${{ matrix.target }}
           else
