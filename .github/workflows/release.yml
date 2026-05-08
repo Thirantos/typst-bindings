@@ -24,13 +24,11 @@ jobs:
             lib_ext: a
             archive_ext: tar.gz
 
-          # This is currently not working correctly (error: failed to run custom build command for `openssl-sys v0.9.113`)
-          - os: ubuntu-latest
+          - os: ubuntu-24.04-arm
             target: aarch64-unknown-linux-gnu
             lib_prefix: lib
             lib_ext: so
             archive_ext: tar.gz
-            use_cross: true
 
           - os: macos-latest
             target: x86_64-apple-darwin
@@ -69,16 +67,16 @@ jobs:
         with:
           tool: cross
 
-      - name: Install libssl
-        if: matrix.target == 'aarch64-unknown-linux-gnu'
-        shell: bash
-        run: sudo apt install libssl-dev
       - name: Build
         shell: bash
         env:
           EXTRA_ENV: ${{ matrix.extra_env }}
         run: |
-          cargo build --release --target ${{ matrix.target }}
+          if [ "${{ matrix.use_cross }}" = "true" ]; then
+            cross build --release --target ${{ matrix.target }}
+          else
+            cargo build --release --target ${{ matrix.target }}
+          fi
 
       - name: Stage artifacts
         shell: bash
