@@ -2363,6 +2363,7 @@ dependencies = [
  "cfg-if",
  "libc",
  "psm",
+ "windows-sys 0.52.0",
  "windows-sys 0.59.0",
 ]
 
@@ -2735,7 +2736,6 @@ dependencies = [
  "typst 0.14.2",
  "typst-kit",
  "typst-pdf",
- "typst-svg",
  "ureq",
  "zune-inflate",
 ]
